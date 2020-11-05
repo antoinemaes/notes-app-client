@@ -1,9 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Amplify } from 'aws-amplify';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import config from './config';
+
+Amplify.configure({
+  Auth: {
+    ...config.cognito,
+    mandatorySignIn: true
+  },
+  Storage: {
+    ...config.s3,
+    identityPoolId: config.cognito.identityPoolId
+  },
+  API: {
+    endpoints: [
+      {
+        ...config.apiGateway,
+        name: "notes"
+      }
+    ]
+  }
+});
 
 ReactDOM.render(
   <React.StrictMode>
