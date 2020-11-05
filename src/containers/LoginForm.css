@@ -1,0 +1,15 @@
+.LoginForm {
+    padding: 30px 10px;
+}
+
+@media all and (min-width: 768px) {
+    .LoginForm {
+      padding: 60px 0;
+    }
+  
+    .LoginForm form {
+      margin: 0 auto;
+      max-width: 320px;
+    }
+  }
+  
