@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
+import { Auth } from "aws-amplify";
 
 import Routes from "./Routes";
 import { AppContext } from "./libs/contextLib";
@@ -10,14 +11,35 @@ import "./App.css";
 
 export default function App() {
 
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const history = useHistory();
 
-  function handleLogout() {
+  async function onLoad() {
+    try {
+      await Auth.currentSession();
+      userHasAuthenticated(true);
+    }
+    catch(e) {
+      if (e !== 'No current user') {
+        alert(e);
+      }
+    }
+  
+    setIsAuthenticating(false);
+  }
+
+  useEffect(function() { onLoad() }, []);
+
+  async function handleLogout() {
+    await Auth.signOut();
     userHasAuthenticated(false);
-    alert("Logged out");
+    alert("Succesfully logged out.");
+    //history.push("/login");
   }
 
   return (
+    !isAuthenticating &&
     <div className="App container">
       <Navbar bg="light" expand="lg">
         <Navbar.Brand as={Link} to="/">Scratch</Navbar.Brand>
