@@ -1,13 +1,13 @@
-.LoginForm {
+.LoginForm, .SignupForm {
     padding: 30px 10px;
 }
 
 @media all and (min-width: 768px) {
-    .LoginForm {
+    .LoginForm, .SignupForm {
       padding: 60px 0;
     }
   
-    .LoginForm form {
+    .LoginForm form, .SignupForm form {
       margin: 0 auto;
       max-width: 320px;
     }

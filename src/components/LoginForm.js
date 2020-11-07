@@ -1,15 +1,20 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import "./LoginForm.css";
+import React from "react";
+import { Form } from "react-bootstrap";
+
+import LoaderButton from "./LoaderButton";
+import { useFormFields } from "../libs/hooksLib";
+import "./Form.css";
 
 export default function LoginForm(props) {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [fields, handleChange] = useFormFields({
+        email:"", 
+        password:""
+    });
 
     function handleSubmit(event) {
         event.preventDefault();
-        props.login(email, password);
+        props.login(fields.email, fields.password);
     }
 
     return (
@@ -23,8 +28,8 @@ export default function LoginForm(props) {
                         type="email"
                         placeholder="Enter email"
                         required 
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        value={fields.email}
+                        onChange={handleChange}
                     />
                 </Form.Group>
 
@@ -34,14 +39,20 @@ export default function LoginForm(props) {
                         type="password"
                         placeholder="Password"
                         required
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        value={fields.password}
+                        onChange={handleChange}
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <LoaderButton
+                    type="submit"
+                    isLoading={props.isPending}
+                    block
+                    size="lg"
+                    className="mt-4 mt-sm-5"
+                >
                     Login
-                </Button>
+                </LoaderButton>
 
             </Form>
         </div>

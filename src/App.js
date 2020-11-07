@@ -5,6 +5,7 @@ import { Auth } from "aws-amplify";
 
 import Routes from "./Routes";
 import { AppContext } from "./libs/contextLib";
+import onError from "./libs/errorLib";
 import "./App.css";
 
 
@@ -22,7 +23,7 @@ export default function App() {
     }
     catch(e) {
       if (e !== 'No current user') {
-        alert(e);
+        onError(e);
       }
     }
   
