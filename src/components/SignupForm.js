@@ -15,7 +15,14 @@ export default function SignupForm(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
+        props.signup(fields.email, fields.password);
     }
+
+    const isValid = () => (
+        fields.email.length > 0 &&
+        fields.password.length > 0 &&
+        fields.confirm === fields.password
+    );
 
     return (
         <div className="SignupForm">
@@ -58,6 +65,7 @@ export default function SignupForm(props) {
                 <LoaderButton
                     type="submit"
                     isLoading={props.isPending}
+                    disabled={!isValid()}
                     block
                     size="lg"
                     className="mt-4 mt-sm-5"
