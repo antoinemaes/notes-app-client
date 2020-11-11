@@ -13,16 +13,38 @@ export default function Signup() {
     const [newUser, setNewUser] = useState(null);
     const [ isPending, setPending ] = useState(false);
     const history = useHistory();
-    const { userHasAuthenticated } = useAppContext();
 
-    function signup(email, password) {
+    async function signup(email, password) {
+
         setPending(true);
-        setNewUser("test");
+
+        try {
+            const newUser = await Auth.signUp({
+                username: email,
+                password
+            });
+            setNewUser(newUser);
+        } catch (e) {
+            onError(e);
+        }
+
         setPending(false);
+
     }
 
-    function confirm(code) {
+    async function confirm(code) {
+
         setPending(true);
+        console.log(newUser);
+
+        try {
+            await Auth.confirmSignUp(newUser.user.username, code);
+            history.push("/login");
+        } catch(e) {
+            onError(e);
+            setPending(false);
+        }
+
     }
 
     return (

@@ -9,7 +9,6 @@ export default function LoaderButton({
     disabled = false,
     ...props
 }) {
-    console.log(isLoading);
     return (
         <Button
             className={`LoaderButton ${className}`}
